@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import heroBg from "../assets/hero-section/hero-image1.jpg";
 import aboutImg from "../assets/about-section/about-image1.jpg";
@@ -18,45 +19,6 @@ const INITIAL_TOUCHED = {
   phone: false,
   message: false,
 };
-
-const PRODUCTS = [
-  { image: product1, title: "Mesin Proses", to: "/mesin-proses" },
-  { image: product2, title: "Mesin Pengemas", to: "/mesin-pengemas" },
-  { image: product3, title: "Spare Part", to: "/mesin-sparepart" },
-];
-
-const FORM_FIELDS = [
-  {
-    key: "name",
-    label: "Nama",
-    type: "text",
-    placeholder: "",
-    error: "Nama wajib diisi.",
-  },
-  {
-    key: "email",
-    label: "Email",
-    type: "email",
-    placeholder: "",
-    error: "Email tidak valid.",
-  },
-  {
-    key: "phone",
-    label: "Telepon",
-    type: "tel",
-    inputMode: "numeric",
-    placeholder: "",
-    error: "Telepon wajib diisi (min. 8 angka).",
-  },
-  {
-    key: "message",
-    label: "Pesan",
-    type: "textarea",
-    rows: 6,
-    placeholder: "",
-    error: "Pesan wajib diisi.",
-  },
-];
 
 function useInView({ threshold = 0.2, root = null, rootMargin = "0px" } = {}) {
   const ref = useRef(null);
@@ -87,7 +49,7 @@ function useInView({ threshold = 0.2, root = null, rootMargin = "0px" } = {}) {
 
 const EMAIL_RE = /^\S+@\S+\.\S+$/;
 
-function revealClass(isInView, from = "up", delayMs = 0) {
+function revealClass(isInView, from = "up") {
   const base = "transition-all duration-700 ease-out will-change-transform";
   const hidden =
     from === "up"
@@ -125,12 +87,65 @@ function getFormErrors(form) {
 }
 
 export default function Home() {
+  const { t } = useTranslation();
+
   const [aboutRef, aboutInView] = useInView({ threshold: 0.25 });
   const [productsRef, productsInView] = useInView({ threshold: 0.2 });
   const [servicesRef, servicesInView] = useInView({ threshold: 0.2 });
   const [preownedRef, preownedInView] = useInView({ threshold: 0.2 });
   const [contactRef, contactInView] = useInView({ threshold: 0.2 });
   const [mapRef, mapInView] = useInView({ threshold: 0.2 });
+
+  const PRODUCTS = [
+    {
+      image: product1,
+      title: t("home.products.items.process"),
+      to: "/mesin-proses",
+    },
+    {
+      image: product2,
+      title: t("home.products.items.packaging"),
+      to: "/mesin-pengemas",
+    },
+    {
+      image: product3,
+      title: t("home.products.items.sparepart"),
+      to: "/mesin-sparepart",
+    },
+  ];
+
+  const FORM_FIELDS = [
+    {
+      key: "name",
+      label: t("home.contact.form.name.label"),
+      type: "text",
+      placeholder: t("home.contact.form.name.placeholder"),
+      error: t("home.contact.form.name.error"),
+    },
+    {
+      key: "email",
+      label: t("home.contact.form.email.label"),
+      type: "email",
+      placeholder: t("home.contact.form.email.placeholder"),
+      error: t("home.contact.form.email.error"),
+    },
+    {
+      key: "phone",
+      label: t("home.contact.form.phone.label"),
+      type: "tel",
+      inputMode: "numeric",
+      placeholder: t("home.contact.form.phone.placeholder"),
+      error: t("home.contact.form.phone.error"),
+    },
+    {
+      key: "message",
+      label: t("home.contact.form.message.label"),
+      type: "textarea",
+      rows: 6,
+      placeholder: t("home.contact.form.message.placeholder"),
+      error: t("home.contact.form.message.error"),
+    },
+  ];
 
   const [form, setForm] = useState(INITIAL_FORM);
   const [touched, setTouched] = useState(INITIAL_TOUCHED);
@@ -160,7 +175,7 @@ export default function Home() {
     markAllTouched();
     if (!isValid) return;
 
-    alert("Pesan berhasil divalidasi! (belum dikirim ke server)");
+    alert(t("home.contact.alertValidated"));
     setForm(INITIAL_FORM);
     setTouched(INITIAL_TOUCHED);
   };
@@ -174,7 +189,7 @@ export default function Home() {
       >
         <img
           src={heroBg}
-          alt="HSI Hero"
+          alt={t("home.hero.imageAlt")}
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-[#5D9FC7]/55" />
@@ -183,10 +198,10 @@ export default function Home() {
           <div className="h-full flex items-center justify-end">
             <div className="text-right max-w-xl">
               <h1 className="text-white font-sans font-bold leading-tight text-4xl md:text-5xl animate-slide-in-right">
-                Teknologi Pengolahan Terdepan
+                {t("home.hero.title")}
               </h1>
               <h2 className="mt-4 text-white/90 text-sm md:text-base animate-slide-in-right animate-delay-150">
-                PT Haluan Sistem Integrasi
+                {t("home.hero.subtitle")}
               </h2>
             </div>
           </div>
@@ -205,7 +220,7 @@ export default function Home() {
                 )}`}
                 style={delayStyle(0)}
               >
-                Tentang Kami
+                {t("home.about.title")}
               </h2>
 
               <p
@@ -215,28 +230,21 @@ export default function Home() {
                 )}`}
                 style={delayStyle(150)}
               >
-                PT Haluan Sistem Integrasi telah berkecimpung di industri
-                pengolahan sejak tahun 2007. Meski masih muda, perusahaan kami
-                telah berhasil membangun jaringan bisnis luas meliputi
-                Indonesia, Singapura, Thailand, Malaysia, dan Filipina di
-                sepanjang Asia Tenggara. Kami berdedikasi untuk menyediakan,
-                memasang, dan merawat berbagai peralatan serta perlengkapan
-                berkualitas tinggi buatan dari pabrik ahli dan terkenal di
-                kalangan industri pengolahan.
+                {t("home.about.desc")}
               </p>
 
               <br />
 
               <div
-                className={`${revealClass(aboutInView, "left")}`}
+                className={`${revealClass(aboutInView, "left")} text-right`}
                 style={delayStyle(300)}
               >
-                <a
-                  href="#"
+                <Link
+                  to="/tentang-kami"
                   className="inline-flex items-center gap-2 text-[#4D6CFF] hover:opacity-70 transition"
                 >
-                  Lihat Lebih Lanjut <span aria-hidden>›</span>
-                </a>
+                  {t("home.about.more")} <span aria-hidden>›</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -244,7 +252,7 @@ export default function Home() {
           <div className="relative min-h-[320px] md:min-h-[420px] lg:min-h-[520px]">
             <img
               src={aboutImg}
-              alt="Tentang Kami"
+              alt={t("home.about.imageAlt")}
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
@@ -261,7 +269,7 @@ export default function Home() {
             )}`}
             style={delayStyle(0)}
           >
-            Produk Kami
+            {t("home.products.title")}
           </h2>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 place-items-center">
@@ -290,7 +298,7 @@ export default function Home() {
                 )}`}
                 style={delayStyle(0)}
               >
-                Layanan yang Kami Tawarkan
+                {t("home.services.title")}
               </h2>
 
               <div className="mt-10 space-y-8">
@@ -300,16 +308,13 @@ export default function Home() {
                     className={revealClass(servicesInView, "left")}
                     style={delayStyle(150 + i * 120)}
                   >
-                    {i === 0 ? (
-                      <ServiceItem
-                        text={`Tim teknisi berkualifikasi kami secara rutin mendapat pelatihan di pabrik manufaktur mesin kami. Mereka siap untuk mendukung pelanggan kami dengan:
-- Installasi, start-up, commissioning untuk mesin baru.
-- Pemecahan masalah dalam maupun setelah masa garansi, dan servis perawatan.
-- Pelatihan penggunaan produk dan aplikasinya bagi operator pelanggan.`}
-                      />
-                    ) : (
-                      <ServiceItem text="Lorem ipsum dolor sit amet consectetur. Iaculis arcu viverra bibendum hendrerit ultrices consequat mi. Ante purus porta id quam quis." />
-                    )}
+                    <ServiceItem
+                      text={
+                        i === 0
+                          ? t("home.services.items.0")
+                          : t(`home.services.items.${i}`)
+                      }
+                    />
                   </div>
                 ))}
               </div>
@@ -319,7 +324,7 @@ export default function Home() {
           <div className="relative min-h-[320px] md:min-h-[420px] lg:min-h-[520px] bg-white">
             <img
               src={servicesImg}
-              alt="Layanan"
+              alt={t("home.services.imageAlt")}
               className="absolute inset-0 h-full w-full object-contain"
             />
           </div>
@@ -332,7 +337,7 @@ export default function Home() {
           <div className="relative min-h-[320px] md:min-h-[420px] lg:min-h-[520px] bg-[#F7F1C8]">
             <img
               src={preownedImg}
-              alt="Pre-owned"
+              alt={t("home.preowned.imageAlt")}
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
@@ -347,7 +352,7 @@ export default function Home() {
                   )}`}
                   style={delayStyle(0)}
                 >
-                  Pre-owned
+                  {t("home.preowned.title")}
                 </h2>
 
                 <p
@@ -357,17 +362,7 @@ export default function Home() {
                   )}`}
                   style={delayStyle(150)}
                 >
-                  {`Mesin proses industri merupakan salah satu investasi yang perlu dipertimbangkan dengan baik sebelum membuat keputusan. Terutama bagi industri yang berniat memulai usaha atau jenis mesin-mesin proses menjadi salah satu investasi yang paling penting. Pertimbangan mendasar perlu dilakukan sebelum mengalokasikan dana, terutama bagi Perusahaan yang berniat memulai usaha industri.
-
-    PT HALUAN SISTEM INTEGRASI menghadirkan sebuah solusi bagi Anda yang ingin budget hemat namun tidak ingin kompromi soal kualitas produksi. Kami menawarkan Anda mesin PRE-OWNED.
-
-    Kenapa harus beli di HSI?
-    Mesin yang kami tawarkan, dapat dipertanggung jawabkan keasliannya dengan menyertakan sertifikat.
-    Pre-owned Machine yang terawat dengan kualitas yang sangat bagus merupakan alternatif yang bisa anda pilih karena tidak menyerap banyak waktu dan biaya.
-
-    - Mesin Berkualitas & bersertifikat
-    - Pengiriman yang CEPAT
-    - Harga yang EKONOMIS`}
+                  {t("home.preowned.desc")}
                 </p>
               </div>
             </div>
@@ -385,11 +380,11 @@ export default function Home() {
             )}`}
             style={delayStyle(0)}
           >
-            Kontak Kami
+            {t("home.contact.title")}
           </h2>
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* LEFT: Form (kiri -> kanan) */}
+            {/* LEFT: Form */}
             <div
               className={revealClass(contactInView, "left")}
               style={delayStyle(150)}
@@ -418,12 +413,12 @@ export default function Home() {
                       : "bg-gray-300 cursor-not-allowed"
                   }`}
                 >
-                  Kirim
+                  {t("home.contact.submit")}
                 </button>
               </form>
             </div>
 
-            {/* RIGHT: Map (bawah -> atas) */}
+            {/* RIGHT: Map */}
             <div
               className={revealClass(mapInView, "up")}
               style={delayStyle(150)}
@@ -432,7 +427,7 @@ export default function Home() {
               <div className="w-full overflow-hidden rounded">
                 <div className="w-full h-[220px] md:h-[250px]">
                   <iframe
-                    title="PT Haluan Sistem Integrasi"
+                    title={t("home.contact.mapTitle")}
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2883.7724335336384!2d106.68124135316758!3d-6.319180118869774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fbd030c7bac9%3A0x6748b9ff6e7e85c8!2sPT%20Haluan%20Sistem%20Integrasi!5e0!3m2!1sen!2sid!4v1770879185692!5m2!1sen!2sid"
                     width="100%"
                     height="100%"
@@ -445,13 +440,10 @@ export default function Home() {
 
                 <div className="bg-[#8FC3DC] text-white p-4 text-xs md:text-sm leading-relaxed">
                   <div className="font-semibold">
-                    PT HALUAN SISTEM INTEGRASI
+                    {t("home.contact.cardTitle")}
                   </div>
-                  <div>
-                    Cluster Golden Vienna 1 Blok B1 No. 2, Jl. Merpati Kencana,
-                    Rawa Buntu, Serpong, Tangerang Selatan, Banten 15318
-                  </div>
-                  <div className="mt-2">+62 895-0805-4752</div>
+                  <div>{t("home.contact.cardAddress")}</div>
+                  <div className="mt-2">{t("home.contact.cardPhone")}</div>
                 </div>
               </div>
             </div>
@@ -483,6 +475,7 @@ function FormRow({ field, value, touched, hasError, onChange, onBlur }) {
             name={field.key}
             rows={field.rows ?? 6}
             value={value}
+            placeholder={field.placeholder}
             onChange={(e) => onChange(field.key, e.target.value)}
             onBlur={() => onBlur(field.key)}
             className={inputClass}
@@ -493,6 +486,7 @@ function FormRow({ field, value, touched, hasError, onChange, onBlur }) {
             type={field.type}
             inputMode={field.inputMode}
             value={value}
+            placeholder={field.placeholder}
             onChange={(e) => onChange(field.key, e.target.value)}
             onBlur={() => onBlur(field.key)}
             className={inputClass}

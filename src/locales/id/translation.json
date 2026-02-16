@@ -1,0 +1,107 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang Kami",
+    "products": "Produk Kami",
+    "services": "Layanan",
+    "preowned": "Pre-Owned",
+    "contact": "Kontak",
+    "news": "Berita",
+    "upevent": "Kegiatan",
+
+    "mobile": "Menu",
+
+    "lang": {
+      "id": "Indonesia",
+      "en": "English"
+    },
+    "aria": {
+      "home": "Kembali ke Beranda",
+      "lang": "Pilih bahasa"
+    }
+  },
+
+  "footer": {
+    "companyName": "PT Haluan Sistem Integrasi",
+    "address": "Cluster Golden Vienna 1 Blok B1 No. 2, Jl. Merpati Kencana, Rawa Buntu, Serpong, Tangerang Selatan, Banten 15318",
+
+    "navTitle": "Navigasi",
+
+    "contactTitle": "Kontak PT Haluan Sistem Integrasi",
+    "whatsappLabel": "WhatsApp:",
+    "whatsappValue": "+62 895-0805-4752",
+    "emailLabel": "Email:",
+    "emailValue": "info@haluansistemintegrasi.com",
+    "hoursLabel": "Jam Operasional:",
+    "hoursValue": "Senin–Jumat 09.00–17.00",
+
+    "cta": "Hubungi Kami",
+    "copyright": "© 2025 PT Haluan Sistem Integrasi. All Rights Reserved."
+  },
+  "home": {
+    "hero": {
+      "imageAlt": "HSI Hero",
+      "title": "Teknologi Pengolahan Terdepan",
+      "subtitle": "PT Haluan Sistem Integrasi"
+    },
+    "about": {
+      "title": "Tentang Kami",
+      "imageAlt": "Tentang Kami",
+      "desc": "PT Haluan Sistem Integrasi telah berkecimpung di industri pengolahan sejak tahun 2007. Meski masih muda, perusahaan kami telah berhasil membangun jaringan bisnis luas meliputi Indonesia, Singapura, Thailand, Malaysia, dan Filipina di sepanjang Asia Tenggara. Kami berdedikasi untuk menyediakan, memasang, dan merawat berbagai peralatan serta perlengkapan berkualitas tinggi buatan dari pabrik ahli dan terkenal di kalangan industri pengolahan.",
+      "more": "Lihat Lebih Lanjut"
+    },
+    "products": {
+      "title": "Produk Kami",
+      "items": {
+        "process": "Mesin Proses",
+        "packaging": "Mesin Pengemas",
+        "sparepart": "Spare Part"
+      }
+    },
+    "services": {
+      "title": "Layanan yang Kami Tawarkan",
+      "imageAlt": "Layanan",
+      "items": {
+        "0": "Tim teknisi berkualifikasi kami secara rutin mendapat pelatihan di pabrik manufaktur mesin kami. Mereka siap untuk mendukung pelanggan kami dengan:\n- Installasi, start-up, commissioning untuk mesin baru.\n- Pemecahan masalah dalam maupun setelah masa garansi, dan servis perawatan.\n- Pelatihan penggunaan produk dan aplikasinya bagi operator pelanggan.",
+        "1": "Lorem ipsum dolor sit amet consectetur. Iaculis arcu viverra bibendum hendrerit ultrices consequat mi. Ante purus porta id quam quis.",
+        "2": "Lorem ipsum dolor sit amet consectetur. Iaculis arcu viverra bibendum hendrerit ultrices consequat mi. Ante purus porta id quam quis."
+      }
+    },
+    "preowned": {
+      "title": "Pre-owned",
+      "imageAlt": "Pre-owned",
+      "desc": "Mesin proses industri merupakan salah satu investasi yang perlu dipertimbangkan dengan baik sebelum membuat keputusan. Terutama bagi industri yang berniat memulai usaha atau jenis mesin-mesin proses menjadi salah satu investasi yang paling penting. Pertimbangan mendasar perlu dilakukan sebelum mengalokasikan dana, terutama bagi Perusahaan yang berniat memulai usaha industri.\n\nPT HALUAN SISTEM INTEGRASI menghadirkan sebuah solusi bagi Anda yang ingin budget hemat namun tidak ingin kompromi soal kualitas produksi. Kami menawarkan Anda mesin PRE-OWNED.\n\nKenapa harus beli di HSI?\nMesin yang kami tawarkan, dapat dipertanggung jawabkan keasliannya dengan menyertakan sertifikat.\nPre-owned Machine yang terawat dengan kualitas yang sangat bagus merupakan alternatif yang bisa anda pilih karena tidak menyerap banyak waktu dan biaya.\n\n- Mesin Berkualitas & bersertifikat\n- Pengiriman yang CEPAT\n- Harga yang EKONOMIS"
+    },
+    "contact": {
+      "title": "Kontak Kami",
+      "submit": "Kirim",
+      "alertValidated": "Pesan berhasil divalidasi! (belum dikirim ke server)",
+      "mapTitle": "PT Haluan Sistem Integrasi",
+      "cardTitle": "PT HALUAN SISTEM INTEGRASI",
+      "cardAddress": "Cluster Golden Vienna 1 Blok B1 No. 2, Jl. Merpati Kencana, Rawa Buntu, Serpong, Tangerang Selatan, Banten 15318",
+      "cardPhone": "+62 895-0805-4752",
+      "form": {
+        "name": {
+          "label": "Nama",
+          "placeholder": "",
+          "error": "Nama wajib diisi."
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "",
+          "error": "Email tidak valid."
+        },
+        "phone": {
+          "label": "Telepon",
+          "placeholder": "",
+          "error": "Telepon wajib diisi (min. 8 angka)."
+        },
+        "message": {
+          "label": "Pesan",
+          "placeholder": "",
+          "error": "Pesan wajib diisi."
+        }
+      }
+    }
+  }
+}

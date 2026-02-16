@@ -1,0 +1,107 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "products": "Our Products",
+    "services": "Services",
+    "preowned": "Pre-Owned",
+    "contact": "Contact",
+    "news": "News",
+    "upevent": "Activities",
+
+    "mobile": "Menu",
+
+    "lang": {
+      "id": "Indonesia",
+      "en": "English"
+    },
+    "aria": {
+      "home": "Back to Home",
+      "lang": "Select language"
+    }
+  },
+
+  "footer": {
+    "companyName": "PT Haluan Sistem Integrasi",
+    "address": "Cluster Golden Vienna 1 Block B1 No. 2, Jl. Merpati Kencana, Rawa Buntu, Serpong, South Tangerang, Banten 15318, Indonesia",
+
+    "navTitle": "Navigation",
+
+    "contactTitle": "Contact PT Haluan Sistem Integrasi",
+    "whatsappLabel": "WhatsApp:",
+    "whatsappValue": "+62 895-0805-4752",
+    "emailLabel": "Email:",
+    "emailValue": "info@haluansistemintegrasi.com",
+    "hoursLabel": "Business Hours:",
+    "hoursValue": "Mon–Fri 09:00–17:00",
+
+    "cta": "Contact Us",
+    "copyright": "© 2025 PT Haluan Sistem Integrasi. All Rights Reserved."
+  },
+  "home": {
+    "hero": {
+      "imageAlt": "HSI Hero",
+      "title": "Leading Processing Technology",
+      "subtitle": "PT Haluan Sistem Integrasi"
+    },
+    "about": {
+      "title": "About Us",
+      "imageAlt": "About Us",
+      "desc": "PT Haluan Sistem Integrasi has been active in the processing industry since 2007. Though still relatively young, our company has successfully built a broad business network across Indonesia, Singapore, Thailand, Malaysia, and the Philippines throughout Southeast Asia. We are dedicated to supplying, installing, and maintaining a wide range of high-quality equipment and accessories from expert and well-known manufacturers in the processing industry.",
+      "more": "See More"
+    },
+    "products": {
+      "title": "Our Products",
+      "items": {
+        "process": "Processing Machines",
+        "packaging": "Packaging Machines",
+        "sparepart": "Spare Parts"
+      }
+    },
+    "services": {
+      "title": "Services We Offer",
+      "imageAlt": "Services",
+      "items": {
+        "0": "Our qualified technicians receive regular training at our machine manufacturers. They are ready to support our customers with:\n- Installation, start-up, and commissioning for new machines.\n- Troubleshooting during and after the warranty period, as well as maintenance services.\n- Product and application training for customer operators.",
+        "1": "Lorem ipsum dolor sit amet consectetur. Iaculis arcu viverra bibendum hendrerit ultrices consequat mi. Ante purus porta id quam quis.",
+        "2": "Lorem ipsum dolor sit amet consectetur. Iaculis arcu viverra bibendum hendrerit ultrices consequat mi. Ante purus porta id quam quis."
+      }
+    },
+    "preowned": {
+      "title": "Pre-owned",
+      "imageAlt": "Pre-owned",
+      "desc": "Industrial processing machines are a major investment that should be carefully considered before making a decision. This is especially true for businesses looking to start operations, where processing machinery is often one of the most critical investments. Fundamental considerations are needed before allocating funds, particularly for companies preparing to begin industrial operations.\n\nPT HALUAN SISTEM INTEGRASI provides a solution for those who want to stay within budget without compromising production quality. We offer PRE-OWNED machines.\n\nWhy buy from HSI?\nThe machines we offer can be verified for authenticity by providing certification.\nWell-maintained pre-owned machines with excellent quality are an alternative option because they do not require significant time and cost.\n\n- Certified & high-quality machines\n- Fast delivery\n- Economical price"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "submit": "Send",
+      "alertValidated": "Message validated successfully! (not sent to the server yet)",
+      "mapTitle": "PT Haluan Sistem Integrasi",
+      "cardTitle": "PT HALUAN SISTEM INTEGRASI",
+      "cardAddress": "Cluster Golden Vienna 1 Block B1 No. 2, Jl. Merpati Kencana, Rawa Buntu, Serpong, South Tangerang, Banten 15318, Indonesia",
+      "cardPhone": "+62 895-0805-4752",
+      "form": {
+        "name": {
+          "label": "Name",
+          "placeholder": "",
+          "error": "Name is required."
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "",
+          "error": "Invalid email address."
+        },
+        "phone": {
+          "label": "Phone",
+          "placeholder": "",
+          "error": "Phone is required (min. 8 digits)."
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "",
+          "error": "Message is required."
+        }
+      }
+    }
+  }
+}

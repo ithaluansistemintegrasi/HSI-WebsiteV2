@@ -7,6 +7,10 @@ import Footer from "./components/Footer";
 import MesinProses from "./sections/MesinProses";
 import MesinPengemas from "./sections/MesinPengemasan";
 import MesinSparePart from "./sections/MesinSparePart";
+import News from "./sections/News";
+import NewsDetail from "./sections/NewsDetail";
+import TentangKami from "./sections/TentangKami";
+import Upevent from "./sections/Upevent";
 
 function ScrollToHash() {
   const { hash, pathname } = useLocation();
@@ -52,6 +56,10 @@ export default function App() {
           <Route path="/mesin-proses" element={<MesinProses />} />
           <Route path="/mesin-pengemas" element={<MesinPengemas />} />
           <Route path="/mesin-sparepart" element={<MesinSparePart />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:slug" element={<NewsDetail />} />
+          <Route path="/tentang-kami" element={<TentangKami />} />
+          <Route path="/upevent" element={<Upevent />} />
         </Routes>
       </main>
 

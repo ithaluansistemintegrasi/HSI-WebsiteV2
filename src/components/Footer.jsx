@@ -1,15 +1,18 @@
+import { useTranslation } from "react-i18next";
 import logoHSI from "../assets/hsi-logo.png";
 
 const navLinks = [
-  { label: "Beranda", id: "home" },
-  { label: "Tentang Kami", id: "about" },
-  { label: "Produk Kami", id: "products" },
-  { label: "Layanan", id: "services" },
-  { label: "Pre-Owned", id: "preowned" },
-  { label: "Kontak", id: "contact" },
+  { key: "home", id: "home" },
+  { key: "about", id: "about" },
+  { key: "products", id: "products" },
+  { key: "services", id: "services" },
+  { key: "preowned", id: "preowned" },
+  { key: "contact", id: "contact" },
 ];
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -29,18 +32,18 @@ export default function Footer() {
 
             <div className="mt-4 text-sm leading-relaxed text-white/90 max-w-xs">
               <div className="font-semibold text-white text-lg">
-                PT Haluan Sistem Integrasi
+                {t("footer.companyName")}
               </div>
-              <div>
-                Cluster Golden Vienna 1 Blok B1 No. 2, Jl. Merpati Kencana, Rawa
-                Buntu, Serpong, Tangerang Selatan, Banten 15318
-              </div>
+              <div>{t("footer.address")}</div>
             </div>
           </div>
 
           {/* MIDDLE: navigation */}
           <div className="md:justify-self-center">
-            <div className="font-semibold text-sm mb-3">Navigasi</div>
+            <div className="font-semibold text-sm mb-3">
+              {t("footer.navTitle")}
+            </div>
+
             <ul className="space-y-2 text-sm text-white/90">
               {navLinks.map((l) => (
                 <li key={l.id}>
@@ -49,35 +52,40 @@ export default function Footer() {
                     onClick={() => scrollTo(l.id)}
                     className="hover:opacity-80 transition"
                   >
-                    {l.label}
+                    {t(`nav.${l.key}`)}
                   </button>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* RIGHT: "red area" content */}
+          {/* RIGHT: contact card */}
           <div className="md:justify-self-end w-full max-w-sm">
-            {/* Ini konten yang "merah" — aku buat versi finalnya (bukan merah), tapi kalau mau persis gambar bisa kasih bg pink */}
             <div className="rounded-md bg-white/15 p-5">
               <div className="font-semibold text-sm">
-                Kontak PT Haluan Sistem Integrasi
+                {t("footer.contactTitle")}
               </div>
 
               <div className="mt-3 text-sm text-white/90 space-y-2">
                 <div>
-                  <span className="font-medium text-white">WhatsApp:</span> +62
-                  895-0805-4752
+                  <span className="font-medium text-white">
+                    {t("footer.whatsappLabel")}
+                  </span>{" "}
+                  {t("footer.whatsappValue")}
                 </div>
-                <div>
-                  <span className="font-medium text-white">Email:</span>{" "}
-                  info@haluansistemintegrasi.com
-                </div>
+
                 <div>
                   <span className="font-medium text-white">
-                    Jam Operasional:
+                    {t("footer.emailLabel")}
                   </span>{" "}
-                  Senin–Jumat 09.00–17.00
+                  {t("footer.emailValue")}
+                </div>
+
+                <div>
+                  <span className="font-medium text-white">
+                    {t("footer.hoursLabel")}
+                  </span>{" "}
+                  {t("footer.hoursValue")}
                 </div>
               </div>
 
@@ -86,7 +94,7 @@ export default function Footer() {
                 onClick={() => scrollTo("contact")}
                 className="mt-5 inline-flex items-center justify-center w-full h-10 rounded-full bg-white text-[#5D9FC7] text-sm font-semibold hover:opacity-90 transition"
               >
-                Hubungi Kami
+                {t("footer.cta")}
               </button>
             </div>
           </div>
@@ -96,7 +104,7 @@ export default function Footer() {
       {/* BOTTOM */}
       <div className="border-t border-white/20">
         <div className="mx-auto max-w-7xl px-6 py-4 text-center text-xs text-white/90">
-          © 2025 PT Haluan Sistem Integrasi. All Rights Reserved.
+          {t("footer.copyright")}
         </div>
       </div>
     </footer>
