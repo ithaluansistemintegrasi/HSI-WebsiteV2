@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer components {
+  .page-container {
+    @apply mx-auto max-w-7xl px-6;
+  }
+}
+
+section {
+  scroll-margin-top: 90px;
+}
+
+/* =========================
+   HERO ANIMATION (RIGHT)
+========================= */
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 900ms ease-out both;
+}
+
+/* =========================
+   ABOUT ANIMATION (LEFT)
+========================= */
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 800ms ease-out both;
+}
+
+/* =========================
+   DELAY UTILITIES
+========================= */
+
+.animate-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
