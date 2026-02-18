@@ -123,7 +123,7 @@ export default function SparePart() {
     }
 
     // kalau di /sparepart, pindah ke home + hash contact
-    navigate("/#contact");
+    navigate("/?section=contact");
   };
 
   return (
