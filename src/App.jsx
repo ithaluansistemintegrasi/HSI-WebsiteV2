@@ -6,39 +6,54 @@ import Home from "./sections/Home";
 import Footer from "./components/Footer";
 import MesinProses from "./sections/MesinProses";
 import MesinPengemas from "./sections/MesinPengemasan";
-import MesinSparePart from "./sections/MesinSparePart";
 import News from "./sections/News";
 import NewsDetail from "./sections/NewsDetail";
 import TentangKami from "./sections/TentangKami";
 import Upevent from "./sections/Upevent";
+import Sparepart from "./sections/Sparepart";
 
-function ScrollToHash() {
-  const { hash, pathname } = useLocation();
+function ScrollToSection() {
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
-    if (!hash) return;
+    // hanya handle scroll section kalau sedang di Home "/"
+    if (pathname !== "/") return;
 
-    const id = hash.replace("#", "");
+    const params = new URLSearchParams(search);
+    const id = params.get("section");
+    if (!id) return;
+
     const t = setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const headerOffset = window.innerWidth < 768 ? 64 : 80;
+      const y =
+        el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+
+      window.scrollTo({ top: y, behavior: "smooth" });
+
+      // OPTIONAL: rapihin URL setelah scroll, hilangkan ?section=...
+      window.history.replaceState({}, "", "/");
+    }, 120);
 
     return () => clearTimeout(t);
-  }, [hash, pathname]);
+  }, [pathname, search]);
 
   return null;
 }
 
 function ScrollToTopOnRoute() {
-  const { pathname, hash } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
-    // Kalau ada hash, biarkan ScrollToHash yang handle
-    if (hash) return;
+    // kalau ada ?section=..., biarkan ScrollToSection yang handle
+    const params = new URLSearchParams(search);
+    if (params.get("section")) return;
 
-    // Pindah halaman normal (tanpa hash) -> balik ke atas
+    // pindah halaman normal -> scroll ke atas
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, [pathname, hash]);
+  }, [pathname, search]);
 
   return null;
 }
@@ -47,7 +62,7 @@ export default function App() {
   return (
     <div className="min-h-screen">
       <ScrollToTopOnRoute />
-      <ScrollToHash />
+      <ScrollToSection />
       <Navbar />
 
       <main>
@@ -55,7 +70,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/mesin-proses" element={<MesinProses />} />
           <Route path="/mesin-pengemas" element={<MesinPengemas />} />
-          <Route path="/mesin-sparepart" element={<MesinSparePart />} />
+          <Route path="/sparepart" element={<Sparepart />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
           <Route path="/tentang-kami" element={<TentangKami />} />

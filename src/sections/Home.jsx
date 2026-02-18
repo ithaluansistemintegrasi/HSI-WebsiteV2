@@ -107,11 +107,6 @@ export default function Home() {
       title: t("home.products.items.packaging"),
       to: "/mesin-pengemas",
     },
-    {
-      image: product3,
-      title: t("home.products.items.sparepart"),
-      to: "/mesin-sparepart",
-    },
   ];
 
   const FORM_FIELDS = [
@@ -272,7 +267,7 @@ export default function Home() {
             {t("home.products.title")}
           </h2>
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 place-items-center">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 place-items-center">
             {PRODUCTS.map((p, idx) => (
               <div
                 key={p.title}

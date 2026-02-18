@@ -6,34 +6,20 @@ import logoHSI from "../assets/hsi-logo.png";
 import flagID from "../assets/id-flag.png";
 import flagEN from "../assets/en-flag.png";
 
+import { NAV_LINKS } from "../data/navLinks";
+
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { t, i18n } = useTranslation();
 
-  // mobile drawer
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // language dropdown (desktop & mobile)
   const [langOpen, setLangOpen] = useState(false);
   const langWrapRef = useRef(null);
 
-  // normalize language: "id", "en"
   const lang = i18n.language?.startsWith("id") ? "id" : "en";
   const currentFlag = lang === "id" ? flagID : flagEN;
 
-  const links = [
-    { key: "home", id: "home" },
-    { key: "about", id: "about" },
-    { key: "products", id: "products" },
-    { key: "services", id: "services" },
-    { key: "preowned", id: "preowned" },
-    { key: "contact", id: "contact" },
-    { key: "news", to: "/news" },
-    { key: "upevent", to: "/upevent" },
-  ];
-
-  // close lang dropdown when click outside
   useEffect(() => {
     const onDown = (e) => {
       if (!langWrapRef.current) return;
@@ -43,7 +29,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
-  // lock scroll when mobile menu open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => (document.body.style.overflow = "");
@@ -62,28 +47,30 @@ export default function Navbar() {
       const el = document.getElementById(id);
       if (!el) return;
 
-      const headerOffset = window.innerWidth < 768 ? 64 : 80; // h-16 / h-20
+      const headerOffset = window.innerWidth < 768 ? 64 : 80;
       const y =
         el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-
       window.scrollTo({ top: y, behavior: "smooth" });
     };
 
+    // Kalau sudah di Home: langsung scroll, tanpa ubah URL
     if (location.pathname === "/") {
-      // tunggu 1 frame biar layout stabil (terutama setelah close drawer)
       requestAnimationFrame(scrollWithOffset);
       return;
     }
 
-    navigate(`/#${id}`);
-    // tunggu route pindah + Home render
-    setTimeout(scrollWithOffset, 150);
+    // Kalau dari halaman lain: balik ke "/" tapi pakai query, bukan hash
+    navigate(`/?section=${id}`);
   };
 
-  // ✅ Pergi ke page (News)
   const goToPage = (to) => {
     setMenuOpen(false);
     navigate(to);
+  };
+
+  const onNavClick = (l) => {
+    if (l.type === "page") return goToPage(l.to);
+    return goToSection(l.id);
   };
 
   return (
@@ -91,7 +78,6 @@ export default function Navbar() {
       <header className="sticky top-0 left-0 right-0 z-50 w-full bg-[#5D9FC7]">
         <nav className="w-full">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between">
-            {/* LEFT: Logo */}
             <button
               className="h-16 md:h-20 flex items-center"
               type="button"
@@ -105,20 +91,20 @@ export default function Navbar() {
               />
             </button>
 
-            {/* RIGHT: Desktop Menu + Flag */}
+            {/* Desktop */}
             <div className="hidden md:flex items-center gap-8 text-white text-sm font-sans">
-              {links.map((l) => (
+              {NAV_LINKS.map((l) => (
                 <button
                   key={l.key}
                   type="button"
-                  onClick={() => (l.to ? goToPage(l.to) : goToSection(l.id))}
+                  onClick={() => onNavClick(l)}
                   className="hover:opacity-80 transition-opacity"
                 >
                   {t(`nav.${l.key}`)}
                 </button>
               ))}
 
-              {/* Flag dropdown (desktop) */}
+              {/* Flag dropdown */}
               <div className="relative z-[60]" ref={langWrapRef}>
                 <button
                   type="button"
@@ -172,7 +158,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Mobile: Hamburger */}
+            {/* Mobile Hamburger */}
             <button
               type="button"
               className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-lg hover:bg-white/10 transition"
@@ -195,7 +181,6 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       {menuOpen && (
         <div className="fixed inset-0 z-[80] md:hidden">
-          {/* backdrop */}
           <button
             type="button"
             className="absolute inset-0 bg-black/40"
@@ -203,7 +188,6 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
           />
 
-          {/* drawer panel */}
           <aside className="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-white shadow-2xl">
             <div className="h-16 px-4 flex items-center justify-between border-b border-slate-200">
               <div className="flex items-center gap-3">
@@ -229,13 +213,12 @@ export default function Navbar() {
             </div>
 
             <div className="p-4">
-              {/* links */}
               <div className="flex flex-col gap-1">
-                {links.map((l) => (
+                {NAV_LINKS.map((l) => (
                   <button
                     key={l.key}
                     type="button"
-                    onClick={() => (l.to ? goToPage(l.to) : goToSection(l.id))}
+                    onClick={() => onNavClick(l)}
                     className="text-left px-3 py-3 rounded-lg font-medium text-slate-800 hover:bg-slate-100 transition"
                   >
                     {t(`nav.${l.key}`)}
@@ -243,7 +226,6 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* language switch inside drawer */}
               <div className="mt-6 rounded-xl border border-slate-200 overflow-hidden">
                 <div className="px-3 py-2 text-xs font-semibold text-slate-500 bg-slate-50">
                   {t("nav.aria.lang")}

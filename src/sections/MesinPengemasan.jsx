@@ -1,4 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
+import packingLine from "../assets/showcase-product/packaging-machine.png";
+import dryWet from "../assets/showcase-product/dry-wet-ex.png";
+
+// ✅ IMPORT FILE GAMBAR (bukan folder)
+import labelingImg from "../assets/product-section/showcase-item/labeling.png";
+import inspectionImg from "../assets/product-section/showcase-item/inspection.png";
+import cartoningImg from "../assets/product-section/showcase-item/cartoning.png";
 
 const CATEGORIES = [
   "Dry, Wet & Fine Milling",
@@ -6,24 +13,31 @@ const CATEGORIES = [
   "Packing & Filling",
 ];
 
+// ✅ mapping id -> image lokal (biar gampang)
+const ITEM_IMAGES = {
+  labeling: labelingImg,
+  inspection: inspectionImg,
+  cartoning: cartoningImg,
+};
+
 const PRODUCTS_BY_CATEGORY = {
   "Dry, Wet & Fine Milling": [
     {
       id: "micronizer-jet-mill",
       title: "Micronizer Jet Mill",
-      desc: "Mesin jet mill untuk penghalusan partikel dengan presisi tinggi. Cocok untuk aplikasi dry milling pada industri farmasi, kimia, dan pangan.",
+      desc: "Mesin jet mill untuk penghalusan partikel dengan presisi tinggi.",
       image: "https://via.placeholder.com/800x600.png?text=Micronizer+Jet+Mill",
     },
     {
       id: "hammer-mill",
       title: "Hammer Mill",
-      desc: "Mesin hammer mill untuk penghancuran material dengan output ukuran partikel yang dapat diatur sesuai kebutuhan proses.",
+      desc: "Mesin hammer mill untuk penghancuran material.",
       image: "https://via.placeholder.com/800x600.png?text=Hammer+Mill",
     },
     {
       id: "pin-mill",
       title: "Pin Mill",
-      desc: "Mesin pin mill untuk fine grinding, cocok untuk bahan kering dengan kebutuhan ukuran halus dan konsisten.",
+      desc: "Mesin pin mill untuk fine grinding.",
       image: "https://via.placeholder.com/800x600.png?text=Pin+Mill",
     },
   ],
@@ -32,63 +46,147 @@ const PRODUCTS_BY_CATEGORY = {
     {
       id: "ribbon-mixer",
       title: "Ribbon Mixer",
-      desc: "Mixer horizontal untuk pencampuran powder/granule dengan hasil homogen, cocok untuk proses batching.",
+      desc: "Mixer horizontal untuk pencampuran.",
       image: "https://via.placeholder.com/800x600.png?text=Ribbon+Mixer",
     },
     {
       id: "high-shear-mixer",
       title: "High Shear Mixer",
-      desc: "High shear mixer untuk proses granulasi cepat dengan kontrol yang baik terhadap ukuran granul dan konsistensi.",
+      desc: "High shear mixer untuk granulasi cepat.",
       image: "https://via.placeholder.com/800x600.png?text=High+Shear+Mixer",
     },
     {
       id: "granulator",
       title: "Granulator",
-      desc: "Granulator untuk membentuk granul dengan ukuran terkontrol. Cocok untuk industri farmasi & chemical.",
+      desc: "Granulator untuk membentuk granul terkontrol.",
       image: "https://via.placeholder.com/800x600.png?text=Granulator",
     },
   ],
 
   "Packing & Filling": [
     {
+      id: "labeling",
+      title: "Labeling Machine",
+      desc: "Pelabelan produk sebelum inspeksi.",
+      image: ITEM_IMAGES.labeling,
+    },
+    {
+      id: "inspection",
+      title: "Inspection Machine",
+      desc: "Cek kualitas/label/defect sebelum cartoning.",
+      image: ITEM_IMAGES.inspection,
+    },
+    {
+      id: "cartoning",
+      title: "Cartoning Machine",
+      desc: "Proses pengemasan karton otomatis.",
+      image: ITEM_IMAGES.cartoning,
+    },
+
+    // produk lain bebas...
+    {
       id: "vffs",
       title: "VFFS Packing",
-      desc: "Mesin packaging vertical untuk berbagai jenis kemasan dengan kecepatan tinggi dan akurasi stabil.",
+      desc: "Mesin packaging vertical.",
       image: "https://via.placeholder.com/800x600.png?text=VFFS+Packing",
     },
     {
       id: "multihead",
       title: "Multihead Weigher",
-      desc: "Sistem penimbangan multihead untuk meningkatkan akurasi dan throughput pada proses pengemasan.",
+      desc: "Sistem penimbangan multihead.",
       image: "https://via.placeholder.com/800x600.png?text=Multihead+Weigher",
     },
     {
       id: "filling",
       title: "Filling Machine",
-      desc: "Mesin filling untuk liquid/powder dengan kontrol volume/berat sesuai kebutuhan produksi.",
+      desc: "Mesin filling liquid/powder.",
       image: "https://via.placeholder.com/800x600.png?text=Filling+Machine",
     },
   ],
 };
 
+const BACKGROUND_BY_CATEGORY = {
+  "Dry, Wet & Fine Milling": dryWet,
+  "Mixing and Granulation": packingLine,
+  "Packing & Filling": packingLine,
+};
+
+const HOTSPOT_RECTS_BY_CATEGORY = {
+  "Dry, Wet & Fine Milling": [
+    { id: "labeling", rect: { x: 20, y: 48, w: 22, h: 1 } },
+    { id: "inspection", rect: { x: 35, y: 25, w: 28, h: 55 } },
+    { id: "cartoning", rect: { x: 53, y: 15, w: 35, h: 75 } },
+  ],
+  "Packing & Filling": [
+    { id: "labeling", rect: { x: 15, y: 48, w: 22, h: 40 } },
+    { id: "inspection", rect: { x: 35, y: 25, w: 28, h: 55 } },
+    { id: "cartoning", rect: { x: 53, y: 15, w: 35, h: 75 } },
+  ],
+};
+
+function rectToCenter(rect) {
+  return { x: rect.x + rect.w / 2, y: rect.y + rect.h / 2 };
+}
+
+function autoHotspotsFromProducts(products) {
+  const top3 = (products || []).slice(0, 3);
+  const xs = [20, 50, 80];
+  const y = 45;
+  return top3.map((p, idx) => ({
+    id: p.id,
+    x: xs[idx] ?? 50,
+    y,
+    title: p.title,
+    desc: p.desc,
+  }));
+}
+
 export default function MesinPengemas() {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [activeProduct, setActiveProduct] = useState(null);
+  const [hoveredHotspot, setHoveredHotspot] = useState(null);
 
-  const products = useMemo(() => {
-    return PRODUCTS_BY_CATEGORY[category] || [];
-  }, [category]);
+  const products = useMemo(
+    () => PRODUCTS_BY_CATEGORY[category] || [],
+    [category],
+  );
+  const backgroundImage = BACKGROUND_BY_CATEGORY[category];
+
+  const [bgBroken, setBgBroken] = useState(false);
+  useEffect(() => setBgBroken(false), [category]);
+
+  const hotspots = useMemo(() => {
+    const rectDefs = HOTSPOT_RECTS_BY_CATEGORY[category];
+    if (rectDefs?.length) {
+      return rectDefs.map((d) => {
+        const p = products.find((x) => x.id === d.id);
+        const center = rectToCenter(d.rect);
+        return {
+          id: d.id,
+          x: center.x,
+          y: center.y,
+          title: p?.title ?? d.id,
+          desc: p?.desc ?? "",
+          rect: d.rect,
+        };
+      });
+    }
+    return autoHotspotsFromProducts(products);
+  }, [category, products]);
 
   const closeModal = () => setActiveProduct(null);
 
-  // ESC untuk close modal
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Escape") closeModal();
-    };
+    const onKey = (e) => e.key === "Escape" && closeModal();
     if (activeProduct) document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [activeProduct]);
+
+  // ✅ Klik hotspot → cari produk → buka modal
+  const openFromHotspot = (hotspot) => {
+    const found = products.find((p) => p.id === hotspot.id);
+    if (found) setActiveProduct(found);
+  };
 
   return (
     <section className="bg-white">
@@ -97,7 +195,6 @@ export default function MesinPengemas() {
           Mesin Pengemasan
         </h1>
 
-        {/* Dropdown */}
         <div className="mt-4 flex justify-center">
           <select
             value={category}
@@ -112,40 +209,71 @@ export default function MesinPengemas() {
           </select>
         </div>
 
-        {/* Subheading */}
-        <p className="mt-8 text-sm text-gray-700">{category}</p>
-
-        {/* Cards */}
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => setActiveProduct(p)}
-              className="text-left rounded border border-[#B9D8EA] bg-white shadow-sm transition hover:shadow-md"
-            >
-              <div className="p-6">
-                <div className="w-full rounded border border-[#B9D8EA] overflow-hidden bg-gray-100">
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="w-full h-[170px] object-cover"
-                  />
+        <div className="mt-8">
+          <div className="relative rounded-lg border border-[#B9D8EA] overflow-hidden bg-gray-100">
+            <div className="relative h-[300px] md:h-[400px] lg:h-[500px]">
+              {backgroundImage ? (
+                <img
+                  src={bgBroken ? packingLine : backgroundImage}
+                  alt={`${category} production line`}
+                  className="w-full h-full object-contain bg-white"
+                  onError={() => setBgBroken(true)}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-sm text-gray-500">
+                  Background image belum diisi.
                 </div>
+              )}
 
-                <div className="mt-5 flex items-center justify-between text-sm text-gray-900">
-                  <span className="font-medium">{p.title}</span>
-                  <span aria-hidden className="text-gray-500">
-                    &gt;
-                  </span>
+              {hotspots.map((hotspot) => (
+                <div
+                  key={hotspot.id}
+                  className="absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
+                  onMouseEnter={() => setHoveredHotspot(hotspot)}
+                  onMouseLeave={() => setHoveredHotspot(null)}
+                  onClick={() => openFromHotspot(hotspot)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ")
+                      openFromHotspot(hotspot);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div className="relative">
+                    <div className="w-6 h-6 bg-blue-600 rounded-full border-2 border-white shadow-lg animate-pulse cursor-pointer hover:scale-110 transition-transform" />
+
+                    {hoveredHotspot?.id === hotspot.id && (
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 bg-white rounded-lg shadow-xl border border-[#B9D8EA] p-3 z-20">
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-3 h-3 bg-white border-r border-b border-[#B9D8EA]" />
+                        <h4 className="font-semibold text-gray-900 text-sm">
+                          {hotspot.title}
+                        </h4>
+                        <p className="mt-1 text-xs text-gray-600">
+                          {hotspot.desc}
+                        </p>
+                        <p className="mt-2 text-[11px] text-blue-600">
+                          Klik untuk lihat detail
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              ))}
+            </div>
+
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+              <h3 className="text-white text-lg md:text-xl font-medium">
+                {category} Production Line
+              </h3>
+              <p className="text-white/80 text-sm mt-1">
+                Klik hotspot untuk menampilkan detail + foto
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* MODAL */}
       {activeProduct && <Modal product={activeProduct} onClose={closeModal} />}
     </section>
   );
@@ -155,40 +283,39 @@ function Modal({ product, onClose }) {
   return (
     <div
       className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 px-4"
-      onMouseDown={onClose} // klik luar untuk close
+      onMouseDown={onClose}
       aria-modal="true"
       role="dialog"
     >
       <div
         className="relative w-full max-w-4xl bg-white rounded-md shadow-lg overflow-hidden"
-        onMouseDown={(e) => e.stopPropagation()} // klik di dalam jangan close
+        onMouseDown={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-red-500 text-3xl leading-none hover:opacity-80"
+          className="absolute right-4 top-4 text-red-500 text-3xl leading-none hover:opacity-80 z-10"
           aria-label="Tutup"
         >
           ×
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* LEFT: image */}
           <div className="bg-gray-100">
             <img
-              src={product.image}
+              src={
+                product.image ||
+                "https://via.placeholder.com/800x600.png?text=No+Image"
+              }
               alt={product.title}
               className="w-full h-[320px] md:h-full object-contain p-6"
             />
           </div>
 
-          {/* RIGHT: content */}
           <div className="p-6 md:p-8">
             <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
               {product.title}
             </h3>
-
             <p className="mt-4 text-sm md:text-base text-gray-700 leading-relaxed">
               {product.desc}
             </p>

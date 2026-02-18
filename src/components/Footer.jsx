@@ -1,28 +1,44 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import logoHSI from "../assets/hsi-logo.png";
-
-const navLinks = [
-  { key: "home", id: "home" },
-  { key: "about", id: "about" },
-  { key: "products", id: "products" },
-  { key: "services", id: "services" },
-  { key: "preowned", id: "preowned" },
-  { key: "contact", id: "contact" },
-];
+import { NAV_LINKS } from "../data/navLinks";
 
 export default function Footer() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const goToSection = (id) => {
+    const scrollWithOffset = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const footerOffset = 0; // footer biasanya ga perlu offset
+      const y =
+        el.getBoundingClientRect().top + window.pageYOffset - footerOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    };
+
+    if (location.pathname === "/") {
+      requestAnimationFrame(scrollWithOffset);
+      return;
+    }
+
+    navigate(`/#${id}`);
+    setTimeout(scrollWithOffset, 150);
+  };
+
+  const goToPage = (to) => navigate(to);
+
+  const onNavClick = (l) => {
+    if (l.type === "page") return goToPage(l.to);
+    return goToSection(l.id);
   };
 
   return (
     <footer className="bg-[#5D9FC7] text-white">
-      {/* TOP */}
       <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* LEFT: logo + address */}
           <div>
             <img
               src={logoHSI}
@@ -38,18 +54,17 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* MIDDLE: navigation */}
           <div className="md:justify-self-center">
             <div className="font-semibold text-sm mb-3">
               {t("footer.navTitle")}
             </div>
 
             <ul className="space-y-2 text-sm text-white/90">
-              {navLinks.map((l) => (
-                <li key={l.id}>
+              {NAV_LINKS.map((l) => (
+                <li key={l.key}>
                   <button
                     type="button"
-                    onClick={() => scrollTo(l.id)}
+                    onClick={() => onNavClick(l)}
                     className="hover:opacity-80 transition"
                   >
                     {t(`nav.${l.key}`)}
@@ -59,7 +74,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* RIGHT: contact card */}
           <div className="md:justify-self-end w-full max-w-sm">
             <div className="rounded-md bg-white/15 p-5">
               <div className="font-semibold text-sm">
@@ -91,7 +105,9 @@ export default function Footer() {
 
               <button
                 type="button"
-                onClick={() => scrollTo("contact")}
+                onClick={() =>
+                  onNavClick({ type: "section", id: "contact", key: "contact" })
+                }
                 className="mt-5 inline-flex items-center justify-center w-full h-10 rounded-full bg-white text-[#5D9FC7] text-sm font-semibold hover:opacity-90 transition"
               >
                 {t("footer.cta")}
@@ -101,7 +117,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* BOTTOM */}
       <div className="border-t border-white/20">
         <div className="mx-auto max-w-7xl px-6 py-4 text-center text-xs text-white/90">
           {t("footer.copyright")}
