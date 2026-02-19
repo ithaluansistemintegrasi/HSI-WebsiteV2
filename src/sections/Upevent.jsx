@@ -133,7 +133,7 @@ export default function Upevent() {
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* LEFT: Calendar */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl border bg-white p-4 md:p-5 shadow-sm">
+            <div className="rounded-2xl border border-[#8FC3DC] bg-white p-4 md:p-5 shadow-sm">
               {/* Header */}
               <div className="flex items-center justify-between gap-3">
                 <button
@@ -222,7 +222,7 @@ export default function Upevent() {
 
           {/* RIGHT: Event List */}
           <div className="lg:col-span-7">
-            <div className="rounded-2xl border bg-white p-4 md:p-5 shadow-sm">
+            <div className="rounded-2xl border border-[#8FC3DC] bg-white p-4 md:p-5 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-lg font-semibold">Daftar Event</h2>
                 <span className="text-xs text-slate-500">
